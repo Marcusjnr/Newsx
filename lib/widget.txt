@@ -1,0 +1,42 @@
+Expanded(
+      child: ListView(
+        shrinkWrap: true,
+        children: <Widget>[
+          Container(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: 200.0,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      customWidgets.cardWithTextBelow(
+                          "images/samplefood1.jpg", "news"),
+                      customWidgets.cardWithTextBelow(
+                          "images/samplefood1.jpg", "news"),
+                      customWidgets.cardWithTextBelow(
+                          "images/samplefood1.jpg", "news")
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 120.0,
+                  width: MediaQuery.of(context).size.width,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      customWidgets.cardWithCircularImage(),
+                      Container(width: 20.0),
+                      customWidgets.cardWithCircularImage(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          customWidgets.scrollableCards(),
+          customWidgets.scrollableCards(),
+          customWidgets.scrollableCards(),
+        ],
+      ),
+    );
