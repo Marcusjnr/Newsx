@@ -3,7 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:try_error/providers/football_news_main_provider.dart';
+import 'package:try_error/providers/science_news_main_provider.dart';
+import 'package:try_error/providers/tech_news_main_provider.dart';
 import 'package:try_error/providers/world_news_main_provider.dart';
+import 'package:try_error/providers/business_news_main_provider.dart';
 import 'package:try_error/screens/main_activity.dart';
 
 
@@ -36,7 +40,11 @@ class _SplashState extends State<Splash> {
         child: MainActivity(),
       ),
     );
-    Provider.of<WorldNewsMainProvider>(context, listen: false).getFeedsTopCard();
+    Provider.of<WorldNewsMainProvider>(context, listen: false).getFeeds();
+    Provider.of<BusinessNewsMainProvider>(context, listen: false).getFeedsBusiness();
+    Provider.of<TechNewsMainProvider>(context, listen: false).getTechFeeds();
+    Provider.of<ScienceNewsMainProvider>(context, listen: false).getScienceFeeds();
+    Provider.of<FootballNewsMainProvider>(context, listen: false).getFootballFeeds();
   }
 
   @override

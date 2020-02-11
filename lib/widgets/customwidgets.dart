@@ -1,4 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:try_error/providers/world_news_main_provider.dart';
 
 class CustomWidgets {
   Widget circularImage(double width, double height, String imageurl) {
@@ -21,14 +24,19 @@ class CustomWidgets {
             borderRadius: BorderRadius.circular(25.0),
             child: Card(
               elevation: 2.0,
-              child: Container(
-                child: Image.network(imageurl, fit: BoxFit.cover, color: Colors.black54, colorBlendMode: BlendMode.overlay,),
-              ),
+              child: CachedNetworkImage(
+                imageUrl:imageurl, 
+                fit: BoxFit.cover, 
+                color: Colors.black54, 
+                colorBlendMode: BlendMode.overlay,
+                 placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                 errorWidget: (context, url, error) => Icon(Icons.error),  
+                ),
             ),
           ),
         ),
         Positioned(
-          top: 60.0,
+          top: 100.0,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Container(
@@ -41,7 +49,10 @@ class CustomWidgets {
                     overflow: TextOverflow.ellipsis,
 
                   ),
-                  Text("This is date")],
+                  Padding(
+                    padding: const EdgeInsets.only(right: 98.0),
+                    child: Text("Time", style: TextStyle(fontFamily: "Quicksand_Regular", color: Colors.white, fontSize: 20.0),),
+                  )],
               ),
             ),
           ),
@@ -50,66 +61,107 @@ class CustomWidgets {
     );
   }
 
-  Widget cardWithCircularImage() {
-    return SizedBox(
-      height: 120.0,
-      width: 250.0,
-      child: Stack(
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(15.0),
-            child: Container(
-              color: Colors.blue,
-              child: SizedBox(
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                        width: 60.0,
-                        height: 60.0,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: AssetImage("images/samplefood1.jpg")))),
-                    Center(
-                      child: Column(
-                        children: <Widget>[
-                          Text("Title"),
-                          Text("News Headline"),
-                          Text("Date")
-                        ],
-                      ),
+  Widget cardWithCircularImage(String imageUrl, String newsType, String headline, String date ) {
+    return Container(
+      margin: EdgeInsets.only(top: 18.0, bottom: 8.0),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+        child: SizedBox(
+          height: 120.0,
+          width: 275.0,
+          child: Stack(
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(15.0),
+                child: Container(
+                  color: Colors.blue,
+                  child: SizedBox(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(left: 8.0, right: 8.0),
+                            width: 60.0,
+                            height: 60.0,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: NetworkImage(imageUrl)))),
+                        Container(
+                          width: 190.0,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(newsType, style: TextStyle(color: Colors.white, fontSize: 15.0, fontFamily: "lgc")),
+                              Text(headline, style: TextStyle(color: Colors.white, fontSize: 30.0, fontFamily: "lgc", fontWeight: FontWeight.bold), maxLines: 2, overflow: TextOverflow.ellipsis,),
+                              Text(date, style: TextStyle(color: Colors.white, fontFamily: "lgc"))
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          )
-        ],
+              )
+            ],
+          ),
+        ),
       ),
     );
 
   }
 
-  Widget scrollableCards() {
-      return Card(
-        child: Row(
-          children: <Widget>[
-            ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child: SizedBox(
-                  height: 130.0,
-                  width: 120.0,
-                  child: Image.asset(
-                    "images/samplefood1.jpg",
-                    fit: BoxFit.fill,
+  Widget scrollableCards(String imageUrl, String type, String headline, String date) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 9.0),
+        child: Container(
+        child: Card(
+          child: Row(
+            children: <Widget>[
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: SizedBox(
+                    height: 130.0,
+                    width: 120.0,
+                    child: CachedNetworkImage(
+                  imageUrl:imageUrl, 
+                  fit: BoxFit.cover, 
+                  color: Colors.black54, 
+                  colorBlendMode: BlendMode.overlay,
+                   placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                   errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
-                )),
-            Column(
-              children: <Widget>[Text("Title"), Text("news"), Text("Date")],
-            )
-          ],
+                  )),
+
+                  Container(width: 12.0,),
+              Container(
+                width: 170.0,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      type,
+                       maxLines: 2, 
+                       overflow: 
+                       TextOverflow.ellipsis,
+                       ), 
+                    Text(
+                      headline,
+                       maxLines: 2, 
+                       overflow: TextOverflow.ellipsis,
+                       style: TextStyle(fontSize: 30.0),
+                       ),Text("Date")],
+                ),
+              )
+            ],
+          ),
         ),
+      )
       );
     }
+
+   
 }
