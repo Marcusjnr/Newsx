@@ -1,6 +1,6 @@
-# try_error
+# Newsx
 
-A new Flutter project.
+A small Flutter news app to get you started in Flutter.
 
 ## Getting Started
 
