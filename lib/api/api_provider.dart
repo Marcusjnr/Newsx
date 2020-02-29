@@ -5,6 +5,8 @@ import 'package:try_error/api/models/world_model/world_model.dart';
 
 class ApiProvider {
 
+static String page = "1";
+
  static String worldNewsLimited =
      "https://content.guardianapis.com/world?page-size=5&show-fields=thumbnail,body,headline&api-key=48f91886-eceb-4e4d-83fc-829b5d5a5043";
  static String worldNewsLimitedPage2 =
@@ -36,7 +38,9 @@ static String footballNewsLimited2 =
 static String footballNewsLimited3 = 
     "https://content.guardianapis.com/football?page=3&page-size=5&show-fields=thumbnail,body,headline&api-key=48f91886-eceb-4e4d-83fc-829b5d5a5043";
  static String worldNews =
-     "https://content.guardianapis.com/world?show-fields=thumbnail,body,headline&api-key=48f91886-eceb-4e4d-83fc-829b5d5a5043";
+     "https://content.guardianapis.com/world?page=$page&page-size=10&show-fields=thumbnail,body,headline&api-key=48f91886-eceb-4e4d-83fc-829b5d5a5043";
+  static String businessNews = 
+      "https://content.guardianapis.com/business?show-fields=thumbnail,body,headline&api-key=48f91886-eceb-4e4d-83fc-829b5d5a5043";
 
 
  static Future<NewsModel> getDataNews(String url) async {

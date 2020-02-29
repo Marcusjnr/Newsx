@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:try_error/api/models/world_model/world_model.dart';
 import 'package:try_error/providers/tech_news_main_provider.dart';
+import 'package:try_error/screens/activities/details.dart';
+import 'package:try_error/utils/parse_html.dart';
 import 'package:try_error/widgets/customwidgets.dart';
+
+import 'news_main.dart';
 
 class TechMain extends StatelessWidget {
   @override
@@ -21,6 +27,7 @@ class TechMain extends StatelessWidget {
                   children: <Widget>[
                     Column(
                       children: <Widget>[
+                        customWidgets.seeMoreText("TECH",context),
                         Container(
                           height: 200.0,
                           child: ListView.builder(
@@ -28,10 +35,30 @@ class TechMain extends StatelessWidget {
                               scrollDirection: Axis.horizontal,
                               itemCount: techNewsMainProvider.topCardsTech.response.results.length,
                               itemBuilder: (BuildContext context, int index){
-                                return  customWidgets.cardWithTextBelow(
-                                    techNewsMainProvider.topCardsTech.response.results[index].fields.thumbnail,
-                                    techNewsMainProvider.topCardsTech.response.results[index].fields.headline
-                                );
+                                          Fields fields = techNewsMainProvider
+                                          .topCardsTech
+                                        .response
+                                        .results[index]
+                                        .fields;
+                                    return InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              type: PageTransitionType.leftToRightWithFade,
+                                              child: DetailsScreen(
+                                                title: "Tech",
+                                                imageUrl: fields.thumbnail,
+                                                newsHeadline: fields.headline,
+                                                body: ParseHtmlString.parseString(
+                                                        fields.body),
+                                                heroImageId: NewsMain.imgTag   
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: customWidgets.cardWithTextBelow(
+                                            fields.thumbnail, fields.headline));
                               }
                           ),
                         ),
@@ -42,12 +69,39 @@ class TechMain extends StatelessWidget {
                               scrollDirection: Axis.horizontal,
                               itemCount: techNewsMainProvider.secondCardsTech.response.results.length,
                               itemBuilder: (BuildContext context, int index){
-                                return customWidgets.cardWithCircularImage(
-                                    techNewsMainProvider.secondCardsTech.response.results[index].fields.thumbnail,
-                                    techNewsMainProvider.secondCardsTech.response.results[index].type,
-                                    techNewsMainProvider.secondCardsTech.response.results[index].fields.headline,
-                                    "Data"
-                                );
+                                           Fields fields = techNewsMainProvider
+                                          .secondCardsTech
+                                        .response
+                                        .results[index]
+                                        .fields;
+                                    return InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              type: PageTransitionType.leftToRightWithFade,
+                                              child: DetailsScreen(
+                                                title: "Tech",
+                                                imageUrl: fields.thumbnail,
+                                                newsHeadline: fields.headline,
+                                                body:
+                                                    ParseHtmlString.parseString(
+                                                        fields.body),
+                                                heroImageId: NewsMain.imgTag
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child:
+                                            customWidgets.cardWithCircularImage(
+                                                fields.thumbnail,
+                                               techNewsMainProvider
+                                                    .secondCardsTech
+                                                    .response
+                                                    .results[index]
+                                                    .type,
+                                                fields.headline,
+                                                "Date"));
                               }
                           ),
                         )
@@ -63,12 +117,37 @@ class TechMain extends StatelessWidget {
                          shrinkWrap: true,
                          physics: ScrollPhysics(),
                          itemBuilder: (BuildContext context, int index){
-                           return customWidgets.scrollableCards(
-                               techNewsMainProvider.thirdCardsTech.response.results[index].fields.thumbnail,
-                               techNewsMainProvider.thirdCardsTech.response.results[index].type,
-                               techNewsMainProvider.thirdCardsTech.response.results[index].fields.headline,
-                               "Date"
-                           );
+                            Fields fields = techNewsMainProvider
+                                          .thirdCardsTech
+                                        .response
+                                        .results[index]
+                                        .fields;
+                                return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        PageTransition(
+                                          type: PageTransitionType.leftToRightWithFade,
+                                          child: DetailsScreen(
+                                            title: "Science",
+                                            imageUrl: fields.thumbnail,
+                                            newsHeadline: fields.headline,
+                                            body: ParseHtmlString.parseString(
+                                                fields.body),
+                                            heroImageId: NewsMain.imgTag
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: customWidgets.scrollableCards(
+                                        fields.thumbnail,
+                                        techNewsMainProvider
+                                          .thirdCardsTech
+                                            .response
+                                            .results[index]
+                                            .type,
+                                        fields.headline,
+                                        "Date"));
                          }
                      ),
                    )

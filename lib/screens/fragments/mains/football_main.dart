@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:try_error/api/models/world_model/world_model.dart';
 import 'package:try_error/providers/football_news_main_provider.dart';
+import 'package:try_error/screens/activities/details.dart';
+import 'package:try_error/utils/parse_html.dart';
 import 'package:try_error/widgets/customwidgets.dart';
+
+import 'news_main.dart';
 
 class FootballMain extends StatelessWidget {
   @override
@@ -21,6 +27,7 @@ class FootballMain extends StatelessWidget {
                   children: <Widget>[
                     Column(
                       children: <Widget>[
+                        customWidgets.seeMoreText("FOOTBALL",context),
                         Container(
                           height: 200.0,
                           child: ListView.builder(
@@ -28,10 +35,30 @@ class FootballMain extends StatelessWidget {
                               scrollDirection: Axis.horizontal,
                               itemCount: footballNewsMainProvider.topCardsFootball.response.results.length,
                               itemBuilder: (BuildContext context, int index){
-                                return  customWidgets.cardWithTextBelow(
-                                    footballNewsMainProvider.topCardsFootball.response.results[index].fields.thumbnail,
-                                    footballNewsMainProvider.topCardsFootball.response.results[index].fields.headline
-                                );
+                                Fields fields = footballNewsMainProvider
+                                        .topCardsFootball
+                                        .response
+                                        .results[index]
+                                        .fields;
+                                    return InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              type: PageTransitionType.leftToRightWithFade,
+                                              child: DetailsScreen(
+                                                title: "Football",
+                                                imageUrl: fields.thumbnail,
+                                                newsHeadline: fields.headline,
+                                                body: ParseHtmlString.parseString(
+                                                        fields.body),
+                                                heroImageId: NewsMain.imgTag
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: customWidgets.cardWithTextBelow(
+                                            fields.thumbnail, fields.headline));
                               }
                           ),
                         ),
@@ -42,12 +69,39 @@ class FootballMain extends StatelessWidget {
                               scrollDirection: Axis.horizontal,
                               itemCount: footballNewsMainProvider.secondCardsFootball.response.results.length,
                               itemBuilder: (BuildContext context, int index){
-                                return customWidgets.cardWithCircularImage(
-                                    footballNewsMainProvider.secondCardsFootball.response.results[index].fields.thumbnail,
-                                    footballNewsMainProvider.secondCardsFootball.response.results[index].type,
-                                    footballNewsMainProvider.secondCardsFootball.response.results[index].fields.headline,
-                                    "Data"
-                                );
+                                         Fields fields = footballNewsMainProvider
+                                        .secondCardsFootball
+                                        .response
+                                        .results[index]
+                                        .fields;
+                                    return InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              type: PageTransitionType.leftToRightWithFade,
+                                              child: DetailsScreen(
+                                                title: "Football",
+                                                imageUrl: fields.thumbnail,
+                                                newsHeadline: fields.headline,
+                                                body:
+                                                    ParseHtmlString.parseString(
+                                                        fields.body),
+                                                heroImageId: NewsMain.imgTag
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child:
+                                            customWidgets.cardWithCircularImage(
+                                                fields.thumbnail,
+                                                footballNewsMainProvider
+                                                    .secondCardsFootball
+                                                    .response
+                                                    .results[index]
+                                                    .type,
+                                                fields.headline,
+                                                "Date"));
                               }
                           ),
                         )
@@ -63,12 +117,37 @@ class FootballMain extends StatelessWidget {
                          shrinkWrap: true,
                          physics: ScrollPhysics(),
                          itemBuilder: (BuildContext context, int index){
-                           return customWidgets.scrollableCards(
-                               footballNewsMainProvider.thirdCardsFootball.response.results[index].fields.thumbnail,
-                               footballNewsMainProvider.thirdCardsFootball.response.results[index].type,
-                               footballNewsMainProvider.thirdCardsFootball.response.results[index].fields.headline,
-                               "Date"
-                           );
+                                         Fields fields = footballNewsMainProvider
+                                        .thirdCardsFootball
+                                        .response
+                                        .results[index]
+                                        .fields;
+                                return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        PageTransition(
+                                          type: PageTransitionType.leftToRightWithFade,
+                                          child: DetailsScreen(
+                                            title: "Football",
+                                            imageUrl: fields.thumbnail,
+                                            newsHeadline: fields.headline,
+                                            body: ParseHtmlString.parseString(
+                                                fields.body),
+                                            heroImageId: NewsMain.imgTag
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: customWidgets.scrollableCards(
+                                        fields.thumbnail,
+                                        footballNewsMainProvider
+                                            .thirdCardsFootball
+                                            .response
+                                            .results[index]
+                                            .type,
+                                        fields.headline,
+                                        "Date"));
                          }
                      ),
                    )

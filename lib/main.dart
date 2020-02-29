@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:try_error/providers/change_fragment.dart';
 import 'package:try_error/providers/football_news_main_provider.dart';
 import 'package:try_error/providers/science_news_main_provider.dart';
+import 'package:try_error/providers/see_more_provider.dart';
 import 'package:try_error/providers/world_news_main_provider.dart';
 import 'package:try_error/providers/business_news_main_provider.dart';
 import 'package:try_error/providers/tech_news_main_provider.dart';
@@ -25,7 +26,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => BusinessNewsMainProvider(),),
         ChangeNotifierProvider(create: (_) => TechNewsMainProvider(),),
         ChangeNotifierProvider(create: (_) => ScienceNewsMainProvider(),),
-        ChangeNotifierProvider(create: (_) => FootballNewsMainProvider(),)
+        ChangeNotifierProvider(create: (_) => FootballNewsMainProvider(),),
+        ChangeNotifierProvider(create: (_) => SeeMoreProvider(),)
       ],
       child: MaterialApp(
         title: "NewsX",
